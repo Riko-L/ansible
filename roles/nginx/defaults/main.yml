@@ -9,6 +9,7 @@
     - php7.2-mysql
     - php7.2-gd
     - php7.2-mbstring
+    - php7.2-xml
     - php7.2-common
   php_timezone: Europe/Paris
   php_upload_max_filesize: "20M"

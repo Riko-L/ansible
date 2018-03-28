@@ -1,19 +1,24 @@
 ---
 - name : Installation du serveur
   hosts: web
-  remote_user: ansible
+  remote_user: administrateur
   vars:
     user: riko
     domains:
       - domain: seecretspot.ovh
         php: yes
         repo: https://github.com/iamarnaud/repausecafe.git
-      - domain: monsite.com
-        php: no
+        branch: dev
+      - domain: rebloch.pw
+        php: yes
+        repo: https://github.com/Riko-L/projet_rebloch.git
+        branch: dev
 
   roles:
-   # - pack-base
-   # - user
-    - nginx
+    - pack-base
     - composer
+    - cerbot
+    - user
+    - mysql
+    - nginx
 ...

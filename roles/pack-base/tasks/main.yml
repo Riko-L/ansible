@@ -3,11 +3,19 @@
   become : yes  
   apt: name={{ item }} update_cache=yes state=latest
   with_items:
+    - aptitude
     - vim
+    - git
     - htop
     - git
     - zsh
+    - zip
+    - unzip
     - apt-transport-https
     - lsb-release
     - ca-certificates
+
+- name: Mise à jours du serveur
+  become: yes
+  apt: update_cache=yes upgrade=yes
 ...

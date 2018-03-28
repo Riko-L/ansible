@@ -19,10 +19,39 @@
   apt: name={{ item }} state=latest
   with_items: "{{php_packages}}"
 
-- lineinfile: dest=/etc/php/7.2/fpm/php.ini regexp='disable_function[\s]?=' line='disable_functions = exec,passthru,shell_exec,proc_open,popen'
-- lineinfile: dest=/etc/php/7.2/fpm/php.ini regexp='post_max_size[\s]?=' line='post_max_size = {{ php_post_max_size }}'
-- lineinfile: dest=/etc/php/7.2/fpm/php.ini regexp='upload_max_filesize[\s]?=' line='upload_max_filesize = {{ php_upload_max_filesize }}'
-- lineinfile: dest=/etc/php/7.2/fpm/php.ini regexp='memory_limit[\s]?=' line='memory_limit = {{ php_memory_limit }}'
-- lineinfile: dest=/etc/php/7.2/fpm/php.ini regexp='date.timezone[\s]?=' line='date.timezone = {{ php_timezone }}'
+- name: Désactivation des fonctions dangereuse
+  become: yes
+  lineinfile:
+    path=/etc/php/7.2/fpm/php.ini
+    regexp='disable_function[\s]?='
+    line='disable_functions = exec,passthru,shell_exec,proc_open,popen'
+
+- name: Set post_max_size
+  become: yes
+  lineinfile:
+    path=/etc/php/7.2/fpm/php.ini
+    regexp='post_max_size[\s]?='
+    line='post_max_size = {{ php_post_max_size }}'
+
+- name: Set upload_max_filesize
+  become: yes
+  lineinfile:
+    path=/etc/php/7.2/fpm/php.ini
+    regexp='upload_max_filesize[\s]?='
+    line='upload_max_filesize = {{ php_upload_max_filesize }}'
+
+- name: Set memory_limit
+  become: yes
+  lineinfile:
+    path=/etc/php/7.2/fpm/php.ini
+    regexp='memory_limit[\s]?='
+    line='memory_limit = {{ php_memory_limit }}'
+
+- name: Set timezone
+  become: yes
+  lineinfile:
+      path=/etc/php/7.2/fpm/php.ini
+      regexp='date.timezone[\s]?='
+      line='date.timezone = {{ php_timezone }}'
   notify: php restart
 ...

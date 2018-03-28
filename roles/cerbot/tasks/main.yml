@@ -1,0 +1,16 @@
+- name: Ajout stretch-backports
+  become: yes
+  apt_repository: repo='{{ item }}'
+  with_items:
+    - deb http://ftp.debian.org/debian stretch-backports main
+
+- name: APT update
+  become: yes
+  apt: update_cache=yes
+
+- name: Installation Certbot
+  become: yes
+  apt:
+    name: python-certbot-nginx
+    state: latest
+    default_release: stretch-backports

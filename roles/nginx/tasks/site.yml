@@ -1,13 +1,12 @@
 ---
 - name: Creation du dossier
   become: yes
-  when: item.repo is undefined
-  file: path=/home/{{ user }}/{{ item.domain }} state=directory owner={{ user }}
+  file: path=/home/{{ user }}/{{ item.domain }} state=directory owner="{{ user }}"
 
 - name: Clonnage du site {{ item.domain }} depuis {{ item.repo }}
   become: yes
   when: item.repo is defined
-  git: dest=/home/{{ user }}/{{ item.domain }} clone=yes repo={{ item.repo }}
+  git: dest=/home/{{ user }}/{{ item.domain }} clone=yes repo={{ item.repo }} remote=origin/{{ item.branch }} force=yes
 
 - name: Lien vers www
   become: yes
@@ -23,9 +22,46 @@
   file: src=/etc/nginx/sites-available/{{ item.domain }} dest=/etc/nginx/sites-enabled/{{ item.domain }} state=link
   notify: nginx reload
 
-- name: test
-  shell: composer install
-  args:
-    chdir: /home/{{ user }}/{{ item.domain }}/
+- name: Change le propriètaire
+  become: yes
+  file: path=/home/{{ user }}/{{ item.domain }} recurse=yes owner="{{ user }}" group="{{ user }}"
+
+- stat: path=/home/{{ user }}/{{ item.domain }}/composer.lock
+  register: composer_file
+
+- name: Composer Install
+  become: yes
+  when: composer_file.stat.exists == false
+  command: chdir=/home/{{ user }}/{{ item.domain }}/ composer install
+
+- name: Composer Update
+  become: yes
+  when: composer_file.stat.exists == true
+  command: chdir=/home/{{ user }}/{{ item.domain }}/ composer update
+
+- name: cp .ENV
+  become: yes
+  command: chdir=/home/{{ user }}/{{ item.domain }}/ cp .env.example .env
+
+- name: Php artisan Key generate
+  become: yes
+  command: chdir=/home/{{ user }}/{{ item.domain }}/ php artisan key:generate
+
+- name: Change les droits d'accès STORAGE
+  become: yes
+  file:
+    path: /home/{{ user }}/{{ item.domain }}/storage
+    mode: 0775
+    recurse: yes
+    group: www-data
+
+- name: Change les droits d'accès BOOTSTRAP/CACHE
+  become: yes
+  file:
+    path: /home/{{ user }}/{{ item.domain }}/bootstrap/cache
+    mode: 0775
+    recurse: yes
+    group: www-data
+
 
 ...
