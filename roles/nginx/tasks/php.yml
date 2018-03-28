@@ -1,0 +1,28 @@
+---
+- name: Ajout de la clef du dépots
+  become: yes
+  apt_key: url=https://packages.sury.org/php/apt.gpg
+
+- name: Ajout de dotDeb aux dépots
+  become: yes
+  apt_repository: repo='{{ item }}'
+  with_items:
+    - deb https://packages.sury.org/php/ stretch main
+
+
+- name: APT update
+  become: yes
+  apt: update_cache=yes
+
+- name: Installation PHP
+  become: yes
+  apt: name={{ item }} state=latest
+  with_items: "{{php_packages}}"
+
+- lineinfile: dest=/etc/php/7.2/fpm/php.ini regexp='disable_function[\s]?=' line='disable_functions = exec,passthru,shell_exec,proc_open,popen'
+- lineinfile: dest=/etc/php/7.2/fpm/php.ini regexp='post_max_size[\s]?=' line='post_max_size = {{ php_post_max_size }}'
+- lineinfile: dest=/etc/php/7.2/fpm/php.ini regexp='upload_max_filesize[\s]?=' line='upload_max_filesize = {{ php_upload_max_filesize }}'
+- lineinfile: dest=/etc/php/7.2/fpm/php.ini regexp='memory_limit[\s]?=' line='memory_limit = {{ php_memory_limit }}'
+- lineinfile: dest=/etc/php/7.2/fpm/php.ini regexp='date.timezone[\s]?=' line='date.timezone = {{ php_timezone }}'
+  notify: php restart
+...

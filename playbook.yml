@@ -1,0 +1,19 @@
+---
+- name : Installation du serveur
+  hosts: web
+  remote_user: ansible
+  vars:
+    user: riko
+    domains:
+      - domain: seecretspot.ovh
+        php: yes
+        repo: https://github.com/iamarnaud/repausecafe.git
+      - domain: monsite.com
+        php: no
+
+  roles:
+   # - pack-base
+   # - user
+   # - nginx
+    - composer
+...

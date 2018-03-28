@@ -1,0 +1,14 @@
+---
+- name: Installation packages de base
+  become : yes  
+  apt: name={{ item }} update_cache=yes state=latest
+  with_items:
+    - vim
+    - htop
+    - git
+    - zsh
+    - composer
+    - apt-transport-https
+    - lsb-release
+    - ca-certificates
+...

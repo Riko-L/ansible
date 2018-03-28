@@ -1,0 +1,6 @@
+---
+- composer:
+   command: install
+   working_dir: /home/{{ user }}/{{ item.domain }}/
+
+...

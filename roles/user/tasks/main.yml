@@ -1,0 +1,14 @@
+---
+ - name: Création d'un utilisateur
+   when: user is defined
+   become : yes  
+   user: name={{ user }} shell=/usr/bin/zsh
+ - name: Ajout de la Clef SSH
+   when: user is defined
+   become : yes  
+   authorized_key: user={{ user }} key="{{ lookup('file' , '~/.ssh/id_rsa.pub') }}"
+ - name: "{{ user }} devient sudoers"
+   become : yes
+   when: user is defined
+   template: src=templates/sudoers.j2 dest=/etc/sudoers.d/{{ user }}-sudoer validate='visudo -cf %s'
+...
