@@ -23,4 +23,9 @@
   file: src=/etc/nginx/sites-available/{{ item.domain }} dest=/etc/nginx/sites-enabled/{{ item.domain }} state=link
   notify: nginx reload
 
+- name: test
+  shell: composer install
+  args:
+    chdir: /home/{{ user }}/{{ item.domain }}/
+
 ...

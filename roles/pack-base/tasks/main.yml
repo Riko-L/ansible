@@ -7,7 +7,6 @@
     - htop
     - git
     - zsh
-    - composer
     - apt-transport-https
     - lsb-release
     - ca-certificates

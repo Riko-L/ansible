@@ -14,6 +14,6 @@
   roles:
    # - pack-base
    # - user
-   # - nginx
+    - nginx
     - composer
 ...
