@@ -16,6 +16,10 @@
     become: yes
     include_tasks: php.yml
 
+  - name: composer
+    include_role:
+      name: composer
+
   - name: Configuration des sites
     become: yes
     include_tasks: site.yml

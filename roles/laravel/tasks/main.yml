@@ -1,0 +1,35 @@
+---
+#- name: cp .ENV
+#  become: yes
+#  command: chdir=/home/{{ user }}/{{ item.domain }}/ cp .env.example .env
+
+- name: Création de la configuration .ENV
+  become: yes
+  template:
+    src: templates/env.j2
+    dest: /home/{{ user }}/{{ item.domain }}/.env
+  
+
+- name: Php artisan Key generate
+  become: yes
+  command: chdir=/home/{{ user }}/{{ item.domain }}/ php artisan key:generate
+
+- name: Change les droits d'accès STORAGE
+  become: yes
+  file:
+    path: /home/{{ user }}/{{ item.domain }}/storage
+    mode: 0775
+    recurse: yes
+    group: www-data
+
+- name: Change les droits d'accès BOOTSTRAP/CACHE
+  become: yes
+  file:
+    path: /home/{{ user }}/{{ item.domain }}/bootstrap/cache
+    mode: 0775
+    recurse: yes
+    group: www-data
+
+- name: Php artisan Migrate
+  become: yes
+  command: chdir=/home/{{ user }}/{{ item.domain }}/ php artisan migrate

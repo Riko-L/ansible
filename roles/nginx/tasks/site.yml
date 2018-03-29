@@ -39,29 +39,11 @@
   when: composer_file.stat.exists == true
   command: chdir=/home/{{ user }}/{{ item.domain }}/ composer update
 
-- name: cp .ENV
-  become: yes
-  command: chdir=/home/{{ user }}/{{ item.domain }}/ cp .env.example .env
-
-- name: Php artisan Key generate
-  become: yes
-  command: chdir=/home/{{ user }}/{{ item.domain }}/ php artisan key:generate
-
-- name: Change les droits d'accès STORAGE
-  become: yes
-  file:
-    path: /home/{{ user }}/{{ item.domain }}/storage
-    mode: 0775
-    recurse: yes
-    group: www-data
-
-- name: Change les droits d'accès BOOTSTRAP/CACHE
-  become: yes
-  file:
-    path: /home/{{ user }}/{{ item.domain }}/bootstrap/cache
-    mode: 0775
-    recurse: yes
-    group: www-data
+- name: test
+  include_role:
+    name: laravel
+  with_items: 
+    - "{{ domains }}"
 
 
 ...
