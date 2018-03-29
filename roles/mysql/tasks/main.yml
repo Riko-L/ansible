@@ -47,7 +47,7 @@
     encoding: utf8
     collation: utf8_bin
 
-- name: Create MY_DBA user in MySQL and grant privileges
+- name: "Create {{ db_name }} user in MySQL and grant privileges"
   mysql_user:
     login_user: root
     login_password: "{{ mysql_root_password }}"

@@ -1,11 +1,11 @@
 ---
 - name : Installation du serveur seecretspot
   hosts: web
-  #remote_user: hellodebian
+  #remote_user: root
   vars:
     user: cess
     domains:
-      - domain: seecretspot.ovh
+      - domain: demo10.rebloch.pw #seecretspot.ovh
         php: yes
         repo: https://github.com/iamarnaud/repausecafe.git
         branch: master
@@ -20,11 +20,11 @@
 
 - name : Installation du serveur rebloch
   hosts: web2
-  #remote_user: hellodebian
+  #remote_user: root
   vars:
     user: riko
     domains:
-      - domain: rebloch.pw
+      - domain: demo10.rebloch.pw #rebloch.pw
         php: yes
         repo: https://github.com/Riko-L/projet_rebloch.git
         branch: master
