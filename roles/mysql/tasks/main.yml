@@ -21,3 +21,37 @@
 - name: Start MYSQL
   become: yes
   service: name=mysql state=started enabled=true
+
+
+- name: Create .my.cnf
+  become: yes
+  template:
+      src: "templates/my.cnf.j2"
+      dest: "/root/.my.cnf"
+      owner: root
+      group: root
+      mode: 0600
+
+- name: Set root user password
+  become: yes
+  mysql_user:
+    name: root
+    password: "{{ mysql_root_password}}"
+    check_implicit_admin: true
+
+- name: Create my datatable
+  mysql_db:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ db_name }}"
+    encoding: utf8
+    collation: utf8_bin
+
+- name: Create MY_DBA user in MySQL and grant privileges
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    user: "{{ db_name_user }}"
+    password: "{{ db_name_user_pass }}"
+    host: '%'
+    priv: '{{ db_name }}.*:ALL'

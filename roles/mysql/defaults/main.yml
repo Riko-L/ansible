@@ -1,0 +1,5 @@
+---
+mysql_root_password: BadBeat
+db_name_user_pass: reblochpass
+db_name_user: rebloch
+db_name: reblochDB
