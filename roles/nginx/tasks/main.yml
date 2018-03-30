@@ -12,7 +12,7 @@
     file: path=/etc/nginx/sites-enabled/default state=absent
     notify: nginx reload
 
-  - name: Supprimer le default.conf avialable
+  - name: Supprimer le default.conf available
     become: yes
     file: path=/etc/nginx/sites-available/default state=absent
     notify: nginx reload

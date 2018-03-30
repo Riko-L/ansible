@@ -1,15 +1,13 @@
 ---
 - name : Installation du serveur seecretspot
   hosts: web
-  #remote_user: root
   vars:
     user: cess
     domains:
-      - domain: demo10.rebloch.pw #seecretspot.ovh
+      - domain: demo50.rebloch.pw #seecretspot.ovh
         php: yes
         repo: https://github.com/iamarnaud/repausecafe.git
         branch: master
-
 
   roles:
     - pack-base
@@ -18,13 +16,13 @@
     - mysql
     - nginx
 
+
 - name : Installation du serveur rebloch
   hosts: web2
-  #remote_user: root
   vars:
     user: riko
     domains:
-      - domain: demo10.rebloch.pw #rebloch.pw
+      - domain: demo60.rebloch.pw #rebloch.pw
         php: yes
         repo: https://github.com/Riko-L/projet_rebloch.git
         branch: master

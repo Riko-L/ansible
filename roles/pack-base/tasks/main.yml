@@ -1,6 +1,6 @@
 ---
 - name: Installation packages de base
-  become : yes  
+  become: yes  
   apt: name={{ item }} update_cache=yes state=latest
   with_items:
     - aptitude

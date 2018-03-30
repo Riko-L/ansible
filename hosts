@@ -1,15 +1,17 @@
 [web]
-52.233.63.156
+52.233.60.109
 
 [web:vars]
-ansible_user=demo1
-ansible_password=*BadBeat74940*&&
-ansible_sudo_pass=*BadBeat74940*&&
+ansible_user=demo50
+ansible_password=*123456789ABC
+ansible_sudo_pass=*123456789ABC
 
 [web2]
-52.237.14.192
+52.237.15.175
 
 [web2:vars]
-ansible_user=demo20
-ansible_password=*BadBeat74940*&&
-ansible_sudo_pass=*BadBeat74940*&&
+ansible_user=demo60
+ansible_password=*123456789ABC
+ansible_sudo_pass=*123456789ABC
+
+
